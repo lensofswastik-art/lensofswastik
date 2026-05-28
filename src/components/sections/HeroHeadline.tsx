@@ -36,10 +36,10 @@ const LINE_2 = "I design what it missed";
 /** Classes shared by both overlay layers */
 const layerClass = [
   "font-averia font-normal",
-  "text-[96px] leading-none",
+  "text-[60px] md:text-[96px] leading-none",
   "tracking-[-0.04em]",
   "text-[#FDFFFC]",
-  "text-center whitespace-nowrap",
+  "text-center whitespace-normal md:whitespace-nowrap",
   "mix-blend-overlay",
 ].join(" ");
 

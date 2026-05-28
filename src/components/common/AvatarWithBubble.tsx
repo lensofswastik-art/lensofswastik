@@ -142,9 +142,9 @@ export function AvatarWithBubble() {
       <Image
         src="/images/swastik.png"
         alt="Swastik Bose"
-        width={36}
-        height={36}
-        className="rounded-full select-none cursor-pointer"
+        width={44}
+        height={44}
+        className="rounded-full select-none cursor-pointer w-[44px] h-[44px] md:w-[36px] md:h-[36px]"
         style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.80)" }}
         priority
       />

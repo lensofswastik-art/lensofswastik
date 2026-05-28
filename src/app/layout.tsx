@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Averia_Serif_Libre } from "next/font/google";
+import { SmoothScroll } from "@/components/common/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const averiaSerifLibre = Averia_Serif_Libre({
-  weight: "400",
+  weight: ["400", "700"],
   variable: "--font-averia-serif-libre",
   subsets: ["latin"],
   display: "swap",
@@ -32,9 +33,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${averiaSerifLibre.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${averiaSerifLibre.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black">{children}</body>
+      <body className="min-h-screen flex flex-col bg-black">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }

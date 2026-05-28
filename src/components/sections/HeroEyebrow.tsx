@@ -16,7 +16,7 @@ export function HeroEyebrow() {
       {/* "I am Swastik" */}
       <span
         className="
-          font-sans font-normal text-[24px] leading-none
+          font-sans font-normal text-[20px] md:text-[24px] leading-none
           tracking-[-0.04em] text-[#FEFEFE]
           select-none
         "

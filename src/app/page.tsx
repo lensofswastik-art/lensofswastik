@@ -5,10 +5,13 @@ import { HeroSubtext } from "@/components/sections/HeroSubtext";
 import { HeroCTA } from "@/components/sections/HeroCTA";
 import { HeroSocials } from "@/components/sections/HeroSocials";
 import { VideoBackground } from "@/components/common/VideoBackground";
+import { HeroScrollBlur } from "@/components/common/HeroScrollBlur";
+import { PlaygroundSection } from "@/components/sections/PlaygroundSection";
 
 export default function Home() {
   return (
-    <main className="relative w-full min-h-screen overflow-hidden bg-black">
+    <>
+    <main className="relative w-full min-h-screen overflow-hidden bg-black" id="hero">
       {/* ── Video background ── */}
       <div className="absolute inset-0">
         <VideoBackground
@@ -23,6 +26,9 @@ export default function Home() {
 
       {/* ── Navbar ── */}
       <Navbar />
+
+      {/* Blur overlay — hidden at rest, fades in on scroll via GSAP ScrollTrigger */}
+      <HeroScrollBlur />
 
       {/*
         ── Hero content ──────────────────────────────────────────────────
@@ -50,11 +56,18 @@ export default function Home() {
           <HeroCTA />
         </div>
 
-        {/* Social links — pinned to bottom of hero viewport */}
-        <div className="absolute bottom-[40px] left-0 right-0 flex justify-center">
+        {/* Social links
+            Mobile  : 120px below CTA in normal flow
+            Desktop : pinned to bottom of hero viewport (absolute) so the
+                      centered content group stays visually centered        */}
+        <div className="mt-[120px] md:mt-0 md:absolute md:bottom-[40px] md:left-0 md:right-0 md:flex md:justify-center">
           <HeroSocials />
         </div>
       </div>
     </main>
+
+    {/* ── Playground section ── */}
+    <PlaygroundSection />
+    </>
   );
 }

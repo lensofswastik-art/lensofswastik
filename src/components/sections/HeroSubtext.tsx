@@ -15,10 +15,11 @@ export function HeroSubtext() {
     <p
       className="
         font-sans font-normal
-        text-[24px] leading-none
+        text-[16px] md:text-[24px] leading-[1.2]
         tracking-[-0.04em]
         text-[#FDFFFC]/60
         text-center
+        max-w-[300px] md:max-w-none
       "
     >
       Product designer with 3 years across Web3, AI, mobile and games
