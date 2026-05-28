@@ -37,9 +37,22 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     }
     rafId = requestAnimationFrame(animate);
 
+    // Intercept all anchor href="#section" clicks — capture phase runs before
+    // Next.js Link's handler, and e.preventDefault() causes Link to bail out.
+    function onAnchorClick(e: MouseEvent) {
+      const anchor = (e.target as HTMLElement).closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href?.startsWith("#") || href.length <= 1) return;
+      e.preventDefault();
+      lenis.scrollTo(href, { offset: -80, duration: 1.2 });
+    }
+    document.addEventListener("click", onAnchorClick, true);
+
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      document.removeEventListener("click", onAnchorClick, true);
     };
   }, []);
 

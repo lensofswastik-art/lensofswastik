@@ -102,7 +102,7 @@ export function AvatarWithBubble() {
         >
           <BubbleShape />
           <div className="absolute left-0 right-0 top-0 flex items-center justify-center gap-[6px]" style={{ height: "37px" }}>
-            <span className="font-sans font-normal text-[20px] leading-none tracking-[-0.04em] text-[#FDFFFC] whitespace-nowrap select-none">
+            <span className="font-sans font-normal text-[13px] md:text-[20px] leading-none tracking-[-0.04em] text-[#FDFFFC] whitespace-nowrap select-none">
               See my story
             </span>
             <RedirectIcon />
