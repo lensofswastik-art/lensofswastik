@@ -1,0 +1,175 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+/* ─── Redirect arrow icon ─────────────────────────────────────────── */
+function RedirectIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <path
+        d="M14.3538 6.85378L11.3538 9.85378C11.2599 9.9476 11.1327 10.0003 11 10.0003C10.8673 10.0003 10.7401 9.9476 10.6462 9.85378C10.5524 9.75996 10.4997 9.63272 10.4997 9.50003C10.4997 9.36735 10.5524 9.2401 10.6462 9.14628L12.7931 7.00003H8C6.54182 7.00169 5.14383 7.58168 4.11274 8.61277C3.08165 9.64387 2.50165 11.0419 2.5 12.5C2.5 12.6326 2.44732 12.7598 2.35355 12.8536C2.25979 12.9474 2.13261 13 2 13C1.86739 13 1.74021 12.9474 1.64645 12.8536C1.55268 12.7598 1.5 12.6326 1.5 12.5C1.50182 10.7767 2.18722 9.12444 3.40582 7.90585C4.62441 6.68726 6.27665 6.00185 8 6.00003H12.7931L10.6462 3.85378C10.5998 3.80733 10.5629 3.75218 10.5378 3.69148C10.5127 3.63079 10.4997 3.56573 10.4997 3.50003C10.4997 3.43434 10.5127 3.36928 10.5378 3.30859C10.5629 3.24789 10.5998 3.19274 10.6462 3.14628C10.7401 3.05246 10.8673 2.99976 11 2.99976C11.0657 2.99976 11.1308 3.0127 11.1914 3.03784C11.2521 3.06298 11.3073 3.09983 11.3538 3.14628L14.3538 6.14628C14.4002 6.19272 14.4371 6.24786 14.4623 6.30856C14.4874 6.36926 14.5004 6.43433 14.5004 6.50003C14.5004 6.56574 14.4874 6.6308 14.4623 6.6915C14.4371 6.7522 14.4002 6.80735 14.3538 6.85378Z"
+        fill="#FDFFFC"
+      />
+    </svg>
+  );
+}
+
+/* ─── Bubble SVG shape ────────────────────────────────────────────── */
+/*
+ * The SVG from Figma:
+ *   - W 167 × H 59 total
+ *   - Main pill body: y 0–35.248 (the readable area)
+ *   - Tail circle: center (11.667, 52.052) r≈6 — bottom-left
+ *   - The connector neck joins pill-bottom-left to the tail circle
+ *
+ * Fill   : #FDFFFC 8%   — translucent white surface
+ * Stroke : #FDFFFC 9%   — hairline rim (implemented in SVG as masked path)
+ * Blur   : backdrop-filter blur(25px) via foreignObject (= Figma blur 50)
+ */
+function BubbleShape() {
+  return (
+    <svg
+      width="167"
+      height="59"
+      viewBox="0 0 167 59"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none"
+    >
+      <foreignObject x="-50" y="-50" width="266.167" height="158.052">
+        <div
+          // @ts-expect-error — xmlns required for SVG foreignObject
+          xmlns="http://www.w3.org/1999/xhtml"
+          style={{
+            backdropFilter: "blur(25px)",
+            WebkitBackdropFilter: "blur(25px)",
+            clipPath: "url(#bgblur_0_24_680_clip_path)",
+            height: "100%",
+            width: "100%",
+          }}
+        />
+      </foreignObject>
+
+      <g data-figma-bg-blur-radius="50">
+        <mask id="path-1-inside-1_24_680" fill="white">
+          <path d="M11.667 46.0518C14.9806 46.0518 17.6669 48.7382 17.667 52.0518C17.667 55.3655 14.9807 58.0518 11.667 58.0518C8.35328 58.0518 5.66699 55.3655 5.66699 52.0518C5.66712 48.7382 8.35337 46.0518 11.667 46.0518ZM148.543 0C158.276 0 166.167 7.89063 166.167 17.624C166.167 27.3573 158.276 35.248 148.543 35.248H38.5293C38.5311 35.3272 38.5352 35.4067 38.5352 35.4863C38.5351 41.2488 33.864 45.9197 28.1016 45.9199C22.339 45.9199 17.6671 41.2489 17.667 35.4863C17.667 35.4067 17.6711 35.3272 17.6729 35.248H17.624C7.89076 35.248 8.65913e-05 27.3573 0 17.624C0 7.89068 7.8907 8.06943e-05 17.624 0H148.543Z" />
+        </mask>
+        {/* Fill layer — #FDFFFC 8% */}
+        <path
+          d="M11.667 46.0518C14.9806 46.0518 17.6669 48.7382 17.667 52.0518C17.667 55.3655 14.9807 58.0518 11.667 58.0518C8.35328 58.0518 5.66699 55.3655 5.66699 52.0518C5.66712 48.7382 8.35337 46.0518 11.667 46.0518ZM148.543 0C158.276 0 166.167 7.89063 166.167 17.624C166.167 27.3573 158.276 35.248 148.543 35.248H38.5293C38.5311 35.3272 38.5352 35.4067 38.5352 35.4863C38.5351 41.2488 33.864 45.9197 28.1016 45.9199C22.339 45.9199 17.6671 41.2489 17.667 35.4863C17.667 35.4067 17.6711 35.3272 17.6729 35.248H17.624C7.89076 35.248 8.65913e-05 27.3573 0 17.624C0 7.89068 7.8907 8.06943e-05 17.624 0H148.543Z"
+          fill="#FDFFFC"
+          fillOpacity="0.08"
+        />
+        {/* Stroke layer — #FDFFFC 9% inside 1px (mask-based) */}
+        <path
+          d="M17.667 52.0518H18.667V52.0517L17.667 52.0518ZM5.66699 52.0518L4.66699 52.0517V52.0518H5.66699ZM166.167 17.624L167.167 17.624V17.624H166.167ZM38.5293 35.248V34.248H37.5066L37.5295 35.2704L38.5293 35.248ZM38.5352 35.4863L39.5352 35.4863V35.4863H38.5352ZM28.1016 45.9199V46.9199H28.1016L28.1016 45.9199ZM17.667 35.4863H16.667V35.4863L17.667 35.4863ZM17.6729 35.248L18.6726 35.2704L18.6955 34.248H17.6729V35.248ZM17.624 35.248L17.624 36.248H17.624V35.248ZM0 17.624H-1V17.624L0 17.624ZM17.624 0V-1H17.624L17.624 0ZM11.667 46.0518V47.0518C14.4283 47.0518 16.6669 49.2904 16.667 52.0518L17.667 52.0518L18.667 52.0517C18.6668 48.1859 15.5329 45.0518 11.667 45.0518V46.0518ZM17.667 52.0518H16.667C16.667 54.8132 14.4284 57.0518 11.667 57.0518V58.0518V59.0518C15.533 59.0518 18.667 55.9178 18.667 52.0518H17.667ZM11.667 58.0518V57.0518C8.90557 57.0518 6.66699 54.8132 6.66699 52.0518H5.66699H4.66699C4.66699 55.9178 7.801 59.0518 11.667 59.0518V58.0518ZM5.66699 52.0518L6.66699 52.0518C6.6671 49.2904 8.90569 47.0518 11.667 47.0518V46.0518V45.0518C7.80104 45.0518 4.66715 48.1859 4.66699 52.0517L5.66699 52.0518ZM148.543 0V1C157.724 1 165.167 8.44292 165.167 17.624H166.167H167.167C167.167 7.33835 158.829 -1 148.543 -1V0ZM166.167 17.624L165.167 17.624C165.167 26.8051 157.724 34.248 148.543 34.248V35.248V36.248C158.829 36.248 167.167 27.9096 167.167 17.624L166.167 17.624ZM148.543 35.248V34.248H38.5293V35.248V36.248H148.543V35.248ZM38.5293 35.248L37.5295 35.2704C37.5323 35.393 37.5352 35.4169 37.5352 35.4863H38.5352H39.5352C39.5352 35.3965 39.5299 35.2615 39.529 35.2257L38.5293 35.248ZM38.5352 35.4863L37.5352 35.4863C37.5351 40.6965 33.3117 44.9197 28.1015 44.9199L28.1016 45.9199L28.1016 46.9199C34.4163 46.9197 39.5351 41.8011 39.5352 35.4863L38.5352 35.4863ZM28.1016 45.9199V44.9199C22.8911 44.9199 18.6671 40.6965 18.667 35.4863L17.667 35.4863L16.667 35.4863C16.6671 41.8013 21.7868 46.9199 28.1016 46.9199V45.9199ZM17.667 35.4863H18.667C18.667 35.4169 18.6699 35.393 18.6726 35.2704L17.6729 35.248L16.6731 35.2257C16.6723 35.2615 16.667 35.3965 16.667 35.4863H17.667ZM17.6729 35.248V34.248H17.624V35.248V36.248H17.6729V35.248ZM17.624 35.248L17.624 34.248C8.44305 34.248 1.00008 26.805 1 17.624L0 17.624L-1 17.624C-0.999909 27.9096 7.33848 36.2479 17.624 36.248L17.624 35.248ZM0 17.624H1C1 8.44297 8.44298 1.00008 17.624 1L17.624 0L17.624 -1C7.33842 -0.999915 -1 7.33839 -1 17.624H0ZM17.624 0V1H148.543V0V-1H17.624V0Z"
+          fill="#FDFFFC"
+          fillOpacity="0.09"
+          mask="url(#path-1-inside-1_24_680)"
+        />
+      </g>
+
+      <defs>
+        <clipPath
+          id="bgblur_0_24_680_clip_path"
+          transform="translate(50 50)"
+        >
+          <path d="M11.667 46.0518C14.9806 46.0518 17.6669 48.7382 17.667 52.0518C17.667 55.3655 14.9807 58.0518 11.667 58.0518C8.35328 58.0518 5.66699 55.3655 5.66699 52.0518C5.66712 48.7382 8.35337 46.0518 11.667 46.0518ZM148.543 0C158.276 0 166.167 7.89063 166.167 17.624C166.167 27.3573 158.276 35.248 148.543 35.248H38.5293C38.5311 35.3272 38.5352 35.4067 38.5352 35.4863C38.5351 41.2488 33.864 45.9197 28.1016 45.9199C22.339 45.9199 17.6671 41.2489 17.667 35.4863C17.667 35.4067 17.6711 35.3272 17.6729 35.248H17.624C7.89076 35.248 8.65913e-05 27.3573 0 17.624C0 7.89068 7.8907 8.06943e-05 17.624 0H148.543Z" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+/* ─── Main export ─────────────────────────────────────────────────── */
+/*
+ * Positioning contract (set in the parent wrapper in page.tsx):
+ *   The bubble is `absolute`, placed above + right of the eyebrow row.
+ *   Its tail circle (SVG bottom-left, x≈12) is calibrated to sit just
+ *   above the avatar image on the right side of the eyebrow.
+ *
+ * Animation:
+ *   transformOrigin "7% 90%" → scale pivots from the tail circle,
+ *   so the bubble appears to "grow" out of the avatar on each pop.
+ *
+ * Cycle (setTimeout-based so it survives React strict-mode double-invoke):
+ *   hidden → 1.5s delay → pop in → 3.5s dwell → fade out → 2.5s pause → repeat
+ */
+export function ChatBubble() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let showTimer: ReturnType<typeof setTimeout>;
+    let hideTimer: ReturnType<typeof setTimeout>;
+
+    const cycle = (delay: number) => {
+      showTimer = setTimeout(() => {
+        setShow(true);
+        hideTimer = setTimeout(() => {
+          setShow(false);
+          cycle(2500); // pause between cycles
+        }, 3500); // visible duration
+      }, delay);
+    };
+
+    cycle(1500); // first appearance delay
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          className="absolute w-[167px] h-[59px] cursor-pointer"
+          /* ── Position: above the eyebrow row, aligned so the tail
+             (x≈12 from bubble's left) sits above the avatar.
+             Tweak `right` if the tail drifts off the avatar. ── */
+          style={{
+            bottom: "calc(100% + 10px)",
+            right: "-130px",
+            /* Scale origin at the tail circle (≈7% from left, ≈90% from top) */
+            transformOrigin: "7% 90%",
+          }}
+          /* ── Enter: spring pop from tail ── */
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 420, damping: 22 }}
+          /* ── Exit: quick shrink + fade ── */
+          exit={{
+            opacity: 0,
+            scale: 0.85,
+            transition: { duration: 0.2, ease: "easeOut" },
+          }}
+        >
+          {/* SVG shape (fill + stroke + backdrop blur) */}
+          <BubbleShape />
+
+          {/* Text content — centered in the pill body (top 35px of 59px SVG) */}
+          <div
+            className="absolute left-0 right-0 top-0 flex items-center justify-center gap-[6px]"
+            style={{ height: "35.248px" }}
+          >
+            <span className="font-sans font-normal text-[13px] leading-none tracking-[-0.04em] text-[#FDFFFC] whitespace-nowrap select-none">
+              See my story
+            </span>
+            <RedirectIcon />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
