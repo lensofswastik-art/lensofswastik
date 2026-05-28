@@ -253,10 +253,10 @@ export function Navbar() {
                 </a>
                 <div className="flex-1" />
                 <div className="flex items-center gap-[16px]">
-                  <a href="https://www.linkedin.com/in/swastikbose" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="opacity-60 active:opacity-100">
+                  <a href="https://www.linkedin.com/in/swastik-bose007/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="opacity-60 active:opacity-100">
                     <LinkedInIcon />
                   </a>
-                  <a href="https://x.com/lensofswastik" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" className="opacity-60 active:opacity-100">
+                  <a href="https://x.com/itzmeSwastik" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" className="opacity-60 active:opacity-100">
                     <XSocialIcon />
                   </a>
                   <a href="https://www.instagram.com/lensofswastik" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="opacity-60 active:opacity-100">

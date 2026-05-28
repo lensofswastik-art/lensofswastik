@@ -115,27 +115,24 @@ function VideoCard({
 
   return (
     <article
-      className="overflow-hidden rounded-[20px]"
+      className="relative overflow-hidden rounded-[20px] aspect-square"
       style={{ backgroundColor: cardBg }}
     >
-      {/* Full-bleed video — no padding, covers the full card width */}
-      <div className="aspect-[4/3] w-full overflow-hidden">
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src={video} type="video/mp4" />
-          <source src={video} type="video/quicktime" />
-        </video>
-      </div>
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src={video} type="video/mp4" />
+        <source src={video} type="video/quicktime" />
+      </video>
 
-      {/* Text — same padding and sizes as image cards */}
-      <div className="p-5 md:p-[46px]">
+      {/* Text pinned to bottom — same position as fullCover and ImageCard */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-[46px]">
         <h3 className={cardTitle} style={{ color: titleColor }}>{title}</h3>
-        <p className={`${cardSubtext} text-[#6D7379]`}>{subtitle}</p>
+        {subtitle && <p className={`${cardSubtext} text-[#6D7379]`}>{subtitle}</p>}
       </div>
     </article>
   );
@@ -165,52 +162,26 @@ export function PlaygroundSection() {
           imageAlt="3D leather crypto wallet with floating Ethereum, Litecoin, Tether and Binance coins"
           title="Crypto wallet visualization"
           madeIn="Figma"
-          madeInHref="https://figma.com"
+          madeInHref="https://www.figma.com/design/4SDvAvM5xSVVFnq1qgk0rE/Crypto-Pouch?node-id=0-1&t=8Y6VMJzJbJ1X64WM-1"
         />
         <ImageCard
           image="/images/legomonalisa.png"
           imageAlt="Mona Lisa portrait pixelated into LEGO blocks"
           title="Monalisa in LEGO blocks"
           madeIn="Figma"
-          madeInHref="https://figma.com"
+          madeInHref="https://www.figma.com/design/NQ2IrPwOqWpr4TVe9ffn0a/Lego-Monalisa?node-id=0-1&t=fxHrg4oR0QzB8ybw-1"
         />
         <VideoCard
           video="/videos/folderinterraction.mov"
           title="Folder interraction"
-          subtitle={
-            <>
-              made with{" "}
-              <a href="https://figma.com" target="_blank" rel="noopener noreferrer"
-                className="text-[#1B6FEB] hover:underline underline-offset-2">
-                Figma
-              </a>
-              {" & "}
-              <a href="https://claude.ai" target="_blank" rel="noopener noreferrer"
-                className="text-[#E8A87C] hover:underline underline-offset-2">
-                Claude
-              </a>
-            </>
-          }
+          subtitle=""
         />
         <VideoCard
           video="/videos/billr.mp4"
           title="Logo Animation"
           fullCover
           titleColor="#FDFFFC"
-          subtitle={
-            <>
-              made with{" "}
-              <a href="https://figma.com" target="_blank" rel="noopener noreferrer"
-                className="text-[#1B6FEB] hover:underline underline-offset-2">
-                Figma
-              </a>
-              {" & "}
-              <a href="https://claude.ai" target="_blank" rel="noopener noreferrer"
-                className="text-[#E8A87C] hover:underline underline-offset-2">
-                Claude
-              </a>
-            </>
-          }
+          subtitle=""
         />
       </div>
     </section>

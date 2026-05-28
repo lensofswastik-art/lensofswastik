@@ -7,13 +7,13 @@ export function Footer() {
 
       {/* ── Social links ── spread edge-to-edge */}
       <div className="flex items-center justify-between px-5 md:px-[60px] pt-[40px] md:pt-[52px]">
-        <a href="https://linkedin.com/in/swastikbose" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+        <a href="https://www.linkedin.com/in/swastik-bose007/" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
           LinkedIn
         </a>
-        <a href="https://x.com/lensofswastik" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+        <a href="https://x.com/itzmeSwastik" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
           X (formerly Twitter)
         </a>
-        <a href="https://instagram.com/lensofswastik" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+        <a href="https://www.instagram.com/lensofswastik" target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
           Instagram
         </a>
         <a href="mailto:lensofswastik@gmail.com" className={LINK_CLASS}>
