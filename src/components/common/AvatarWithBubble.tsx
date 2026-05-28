@@ -92,13 +92,15 @@ export function AvatarWithBubble() {
 
       {/* Bubble — only in DOM when visible, preventing right-side overflow on mobile */}
       {show && (
-        <div
-          className="absolute w-[175px] h-[62px] z-50"
+        <a
+          href="#my-story"
+          className="absolute w-[175px] h-[62px] z-50 cursor-pointer"
           style={{
             bottom: "calc(100% + 10px)",
             left: "3px",
             animation: "bubble-in 0.25s ease forwards",
           }}
+          aria-label="See my story"
         >
           <BubbleShape />
           <div className="absolute left-0 right-0 top-0 flex items-center justify-center gap-[6px]" style={{ height: "37px" }}>
@@ -107,7 +109,7 @@ export function AvatarWithBubble() {
             </span>
             <RedirectIcon />
           </div>
-        </div>
+        </a>
       )}
     </div>
   );
