@@ -45,8 +45,9 @@ export function HeroScrollBlur() {
   return (
     <div
       ref={ref}
-      className="absolute bottom-0 left-0 right-0 h-[220px] pointer-events-none"
+      className="absolute left-0 right-0 h-[220px] pointer-events-none"
       style={{
+        bottom: "-2px",
         background:
           "linear-gradient(to top, #FDFFFC 0%, rgba(253,255,252,0.5) 45%, transparent 100%)",
         backdropFilter: "blur(18px)",

@@ -8,44 +8,28 @@ import Image from "next/image";
  *   "Stuffs I made on weekends" : Geist · Regular · 24px · -4% · #6D7379
  *
  * ── Cards ─────────────────────────────────────────────────────────────
- *   Grid    : 2 col (tablet/desktop) · 1 col stacked (mobile)
- *   Size    : 640×640px (aspect-square, responsive)
- *   Radius  : 20px
- *   Padding : 46px
- *   Fill    : #F8F9FA
- *
- *   Card title   : Averia Serif Libre · Bold · 32px · -4% · #121212
- *   Card subtitle: Geist · Medium · 24px · -3% · "made in [Figma ↗]"
+ *   Grid : 2 col tablet/desktop · 1 col mobile
+ *   Image cards  : aspect-square · padding 46px · bg #EFF0F0 · dark text
+ *   Video card   : full-bleed video · spans 2 cols desktop · light overlay text
  *
  * ── Section margin ────────────────────────────────────────────────────
- *   Desktop : px-[60px]
- *   Mobile  : px-5
+ *   Desktop : px-[60px]   Mobile : px-5
  */
 
-const cards = [
-  {
-    image: "/images/pouch.png",
-    imageAlt: "3D leather crypto wallet with floating Ethereum, Litecoin, Tether and Binance coins",
-    title: "Crypto wallet visualization",
-    madeIn: "Figma",
-    madeInHref: "https://figma.com",
-  },
-  {
-    image: "/images/legomonalisa.png",
-    imageAlt: "Mona Lisa portrait pixelated into LEGO blocks",
-    title: "Monalisa in LEGO blocks",
-    madeIn: "Figma",
-    madeInHref: "https://figma.com",
-  },
-] as const;
+/* ─── shared text classes ─────────────────────────────────────────────── */
+const cardTitle = "font-averia font-bold text-[22px] md:text-[32px] leading-none tracking-[-0.04em]";
+const cardSubtext = "mt-2 font-sans font-medium text-[16px] md:text-[24px] leading-none tracking-[-0.03em]";
 
-function PlaygroundCard({
-  image,
-  imageAlt,
-  title,
-  madeIn,
-  madeInHref,
-}: (typeof cards)[number]) {
+/* ─── Image card ─────────────────────────────────────────────────────── */
+interface ImageCardProps {
+  image: string;
+  imageAlt: string;
+  title: string;
+  madeIn: string;
+  madeInHref: string;
+}
+
+function ImageCard({ image, imageAlt, title, madeIn, madeInHref }: ImageCardProps) {
   return (
     <article className="relative overflow-hidden rounded-[20px] bg-[#EFF0F0] aspect-square">
       <div className="absolute inset-0 flex flex-col p-5 md:p-[46px]">
@@ -62,25 +46,8 @@ function PlaygroundCard({
 
         {/* Text — pinned to bottom */}
         <div className="shrink-0 pt-4 md:pt-8">
-          <h3
-            className="
-              font-averia font-bold
-              text-[22px] md:text-[32px]
-              leading-none tracking-[-0.04em]
-              text-[#121212]
-            "
-          >
-            {title}
-          </h3>
-          <p
-            className="
-              mt-2
-              font-sans font-medium
-              text-[16px] md:text-[24px]
-              leading-none tracking-[-0.03em]
-              text-[#6D7379]
-            "
-          >
+          <h3 className={`${cardTitle} text-[#121212]`}>{title}</h3>
+          <p className={`${cardSubtext} text-[#6D7379]`}>
             made in{" "}
             <a
               href={madeInHref}
@@ -97,42 +64,154 @@ function PlaygroundCard({
   );
 }
 
+/* ─── Video card ─────────────────────────────────────────────────────── */
+interface VideoCardProps {
+  video: string;
+  title: string;
+  subtitle: React.ReactNode;
+  /** Card background colour for the text section. Default: #EFF0F0 (light). */
+  cardBg?: string;
+  /** Title text colour. Default: #121212 (dark). */
+  titleColor?: string;
+  /**
+   * fullCover — video fills the entire card height.
+   * Text is overlaid at the bottom with no background box, so the
+   * subject centred in the video also sits at the card's visual centre.
+   */
+  fullCover?: boolean;
+}
+
+function VideoCard({
+  video,
+  title,
+  subtitle,
+  cardBg = "#EFF0F0",
+  titleColor = "#121212",
+  fullCover = false,
+}: VideoCardProps) {
+  if (fullCover) {
+    return (
+      /* Video fills the entire card — subject centred in video = centred in card */
+      <article className="relative overflow-hidden rounded-[20px] aspect-square">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={video} type="video/mp4" />
+          <source src={video} type="video/quicktime" />
+        </video>
+
+        {/* Text overlaid at bottom — no bg box, text colour already readable on dark video */}
+        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-[46px]">
+          <h3 className={cardTitle} style={{ color: titleColor }}>{title}</h3>
+          <p className={`${cardSubtext} text-[#6D7379]`}>{subtitle}</p>
+        </div>
+      </article>
+    );
+  }
+
+  return (
+    <article
+      className="overflow-hidden rounded-[20px]"
+      style={{ backgroundColor: cardBg }}
+    >
+      {/* Full-bleed video — no padding, covers the full card width */}
+      <div className="aspect-[4/3] w-full overflow-hidden">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={video} type="video/mp4" />
+          <source src={video} type="video/quicktime" />
+        </video>
+      </div>
+
+      {/* Text — same padding and sizes as image cards */}
+      <div className="p-5 md:p-[46px]">
+        <h3 className={cardTitle} style={{ color: titleColor }}>{title}</h3>
+        <p className={`${cardSubtext} text-[#6D7379]`}>{subtitle}</p>
+      </div>
+    </article>
+  );
+}
+
+/* ─── Section ────────────────────────────────────────────────────────── */
 export function PlaygroundSection() {
   return (
     <section
       id="playground"
       className="w-full bg-[#FDFFFC] px-5 md:px-[60px] pt-[80px] pb-[120px]"
     >
-      {/* ── Section header ── */}
+      {/* Section header */}
       <header className="mb-10 md:mb-[52px]">
-        <h2
-          className="
-            font-averia font-bold
-            text-[28px] md:text-[40px]
-            leading-none tracking-[-0.04em]
-            text-[#121212]
-          "
-        >
+        <h2 className="font-averia font-bold text-[28px] md:text-[40px] leading-none tracking-[-0.04em] text-[#121212]">
           Playground
         </h2>
-        <p
-          className="
-            mt-2 md:mt-3
-            font-sans font-normal
-            text-[18px] md:text-[24px]
-            leading-none tracking-[-0.04em]
-            text-[#6D7379]
-          "
-        >
+        <p className="mt-2 md:mt-3 font-sans font-normal text-[18px] md:text-[24px] leading-none tracking-[-0.04em] text-[#6D7379]">
           Stuffs I made on weekends
         </p>
       </header>
 
-      {/* ── Cards grid ── */}
+      {/* Cards grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px] md:gap-[40px]">
-        {cards.map((card) => (
-          <PlaygroundCard key={card.title} {...card} />
-        ))}
+        <ImageCard
+          image="/images/pouch.png"
+          imageAlt="3D leather crypto wallet with floating Ethereum, Litecoin, Tether and Binance coins"
+          title="Crypto wallet visualization"
+          madeIn="Figma"
+          madeInHref="https://figma.com"
+        />
+        <ImageCard
+          image="/images/legomonalisa.png"
+          imageAlt="Mona Lisa portrait pixelated into LEGO blocks"
+          title="Monalisa in LEGO blocks"
+          madeIn="Figma"
+          madeInHref="https://figma.com"
+        />
+        <VideoCard
+          video="/videos/folderinterraction.mov"
+          title="Folder interraction"
+          subtitle={
+            <>
+              made with{" "}
+              <a href="https://figma.com" target="_blank" rel="noopener noreferrer"
+                className="text-[#1B6FEB] hover:underline underline-offset-2">
+                Figma
+              </a>
+              {" & "}
+              <a href="https://claude.ai" target="_blank" rel="noopener noreferrer"
+                className="text-[#E8A87C] hover:underline underline-offset-2">
+                Claude
+              </a>
+            </>
+          }
+        />
+        <VideoCard
+          video="/videos/billr.mp4"
+          title="Logo Animation"
+          fullCover
+          titleColor="#FDFFFC"
+          subtitle={
+            <>
+              made with{" "}
+              <a href="https://figma.com" target="_blank" rel="noopener noreferrer"
+                className="text-[#1B6FEB] hover:underline underline-offset-2">
+                Figma
+              </a>
+              {" & "}
+              <a href="https://claude.ai" target="_blank" rel="noopener noreferrer"
+                className="text-[#E8A87C] hover:underline underline-offset-2">
+                Claude
+              </a>
+            </>
+          }
+        />
       </div>
     </section>
   );

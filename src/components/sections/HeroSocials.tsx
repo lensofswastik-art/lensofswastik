@@ -23,7 +23,7 @@ const socials = [
 
 export function HeroSocials() {
   return (
-    <nav aria-label="Social links" className="flex items-center gap-[36px] md:gap-[48px] px-4 md:px-0">
+    <nav aria-label="Social links" className="flex flex-wrap items-center justify-center gap-x-[20px] gap-y-[12px] md:gap-x-[48px] md:gap-y-0 px-4 md:px-0">
       {socials.map(({ label, href }) => (
         <a
           key={label}

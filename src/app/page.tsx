@@ -6,12 +6,15 @@ import { HeroCTA } from "@/components/sections/HeroCTA";
 import { HeroSocials } from "@/components/sections/HeroSocials";
 import { VideoBackground } from "@/components/common/VideoBackground";
 import { HeroScrollBlur } from "@/components/common/HeroScrollBlur";
+import { MyStorySection } from "@/components/sections/MyStorySection";
+import { Footer } from "@/components/common/Footer";
 import { PlaygroundSection } from "@/components/sections/PlaygroundSection";
+import { MyProjectsSection } from "@/components/sections/MyProjectsSection";
 
 export default function Home() {
   return (
     <>
-    <main className="relative w-full min-h-screen overflow-hidden bg-black" id="hero">
+    <main className="relative w-full min-h-screen bg-black" id="hero">
       {/* ── Video background ── */}
       <div className="absolute inset-0">
         <VideoBackground
@@ -66,8 +69,17 @@ export default function Home() {
       </div>
     </main>
 
+    {/* ── My Story section ── */}
+    <MyStorySection />
+
     {/* ── Playground section ── */}
     <PlaygroundSection />
-    </>
+
+    {/* ── My Projects section ── */}
+    <MyProjectsSection />
+
+    {/* ── Footer ── */}
+    <Footer />
+</>
   );
 }
